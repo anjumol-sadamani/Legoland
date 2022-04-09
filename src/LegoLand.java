@@ -1,5 +1,3 @@
-import com.sun.source.doctree.SeeTree;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,7 +20,7 @@ public class LegoLand {
         System.out.println("Order: " + order);
     }
 
-    private ProfitWithOrder getMaximumProfitFromSawMill(List<Integer> trunks, int filled) {
+    private ProfitWithOrder getMaximumProfitFromSawMill(List<Integer> trunks, int balance) {
         ProfitWithOrder profitWithOrder = new ProfitWithOrder();
         if (trunks.size() == 0) {
             return profitWithOrder;
@@ -33,16 +31,16 @@ public class LegoLand {
             List<Integer> remainingTrunks = new ArrayList<>(trunks);
             Integer currentTrunk = remainingTrunks.remove(i);
             int profitOfCurrentTrunk;
-            if (filled + currentTrunk <= 3) {
+            if (balance + currentTrunk <= 3) {
                 profitOfCurrentTrunk = getProfitOfWood(currentTrunk);
             } else {
-                int noOfThreeSizedWoods = (currentTrunk + filled) / 3 - 1;
-                int sizeOfFirstWood = 3 - filled;
-                int sizeOfLastWood = (currentTrunk + filled) % 3;
+                int noOfThreeSizedWoods = (currentTrunk + balance) / 3 - 1;
+                int sizeOfFirstWood = 3 - balance;
+                int sizeOfLastWood = (currentTrunk + balance) % 3;
                 profitOfCurrentTrunk = getProfitOfWood(sizeOfFirstWood) + getProfitOfWood(3) * noOfThreeSizedWoods
                         + getProfitOfWood(sizeOfLastWood);
             }
-            var tempProfitWithOrder = getMaximumProfitFromSawMill(remainingTrunks, (filled + currentTrunk) % 3);
+            var tempProfitWithOrder = getMaximumProfitFromSawMill(remainingTrunks, (balance + currentTrunk) % 3);
             var profitOfChoosingI = profitOfCurrentTrunk + tempProfitWithOrder.getProfit();
             if (profitWithOrder.getProfit() < profitOfChoosingI) {
                 tempProfitWithOrder.setProfit(profitOfChoosingI);
