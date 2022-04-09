@@ -34,22 +34,22 @@ public class LegoLand {
             if (balance + currentTrunk <= 3) {
                 profitOfCurrentTrunk = getProfitOfWood(currentTrunk);
             } else {
-                int noOfThreeSizedWoods = (currentTrunk + balance) / 3 - 1;
                 int sizeOfFirstWood = 3 - balance;
-                int sizeOfLastWood = (currentTrunk + balance) % 3;
-                profitOfCurrentTrunk = getProfitOfWood(sizeOfFirstWood) + getProfitOfWood(3) * noOfThreeSizedWoods
+                int noOfIntermediateWoods = (currentTrunk - sizeOfFirstWood)/3;
+                int sizeOfLastWood = (currentTrunk - sizeOfFirstWood) % 3;
+                profitOfCurrentTrunk = getProfitOfWood(sizeOfFirstWood) + getProfitOfWood(3) * noOfIntermediateWoods
                         + getProfitOfWood(sizeOfLastWood);
             }
-            var tempProfitWithOrder = getMaximumProfitFromSawMill(remainingTrunks, (balance + currentTrunk) % 3);
-            var profitOfChoosingI = profitOfCurrentTrunk + tempProfitWithOrder.getProfit();
-            if (profitWithOrder.getProfit() < profitOfChoosingI) {
-                tempProfitWithOrder.setProfit(profitOfChoosingI);
-                tempProfitWithOrder.append(currentTrunk);
-                profitWithOrder = tempProfitWithOrder;
-            } else if (profitWithOrder.getProfit() == profitOfChoosingI) {
-                tempProfitWithOrder.append(currentTrunk);
+            var profitWithOrderOfRemainingTrunks = getMaximumProfitFromSawMill(remainingTrunks, (balance + currentTrunk) % 3);
+            var profitOfChoosingCurrentTrunk = profitOfCurrentTrunk + profitWithOrderOfRemainingTrunks.getProfit();
+            if (profitWithOrder.getProfit() < profitOfChoosingCurrentTrunk) {
+                profitWithOrder = profitWithOrderOfRemainingTrunks;
+                profitWithOrder.setProfit(profitOfChoosingCurrentTrunk);
+                profitWithOrder.append(currentTrunk);
+            } else if (profitWithOrder.getProfit() == profitOfChoosingCurrentTrunk) {
+                profitWithOrderOfRemainingTrunks.append(currentTrunk);
                 var list = profitWithOrder.getReversedOrder();
-                list.addAll(tempProfitWithOrder.getReversedOrder());
+                list.addAll(profitWithOrderOfRemainingTrunks.getReversedOrder());
                 profitWithOrder.setReversedOrder(list);
             }
 
