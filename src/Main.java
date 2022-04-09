@@ -7,8 +7,7 @@ public class Main {
     public static void main(String[] args) {
         InputTestCase InputTestCase = createInput();
         LegoLand legoLand = new LegoLand();
-        var totalProfit = legoLand.getTotalProfit(InputTestCase);
-        System.out.println(totalProfit);
+        legoLand.getTotalProfit(InputTestCase);
     }
 
 

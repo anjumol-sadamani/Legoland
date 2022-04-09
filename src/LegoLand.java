@@ -1,24 +1,25 @@
 import com.sun.source.doctree.SeeTree;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LegoLand {
 
-    public int getTotalProfit(InputTestCase inputTestCase) {
+    public void getTotalProfit(InputTestCase inputTestCase) {
 
         var noOfSawMills = inputTestCase.getNoOfSawMills();
         var sawMills = inputTestCase.getSawMills();
         int totalProfit = 0;
+        List<List<List<Integer>>> order = new ArrayList<>();
         for (int i = 0; i < noOfSawMills; i++) {
             var profitWithOrder = getMaximumProfitFromSawMill(sawMills.get(i).getTrunks(), 0);
-            System.out.println(profitWithOrder.getProfit());
             totalProfit += profitWithOrder.getProfit();
             var list = profitWithOrder.getReversedOrder();
             list.forEach(Collections::reverse);
-            System.out.println(new HashSet<>(list));
+            order.add(list.stream().distinct().collect(Collectors.toList()));
         }
-        return totalProfit;
-
+        System.out.println("Max profit: " + totalProfit);
+        System.out.println("Order: " + order);
     }
 
     private ProfitWithOrder getMaximumProfitFromSawMill(List<Integer> trunks, int filled) {
