@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProfitWithOrder {
@@ -28,7 +27,7 @@ public class ProfitWithOrder {
 
     public void append(Integer i) {
         if (reversedOrder.size() == 0){
-            reversedOrder.add(new ArrayList<>(Arrays.asList(i)));
+            reversedOrder.add(new ArrayList<>(List.of(i)));
             return;
         }
         reversedOrder.forEach(l -> l.add(i));
